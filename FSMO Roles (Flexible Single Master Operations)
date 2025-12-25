@@ -1,0 +1,124 @@
+FSMO Roles (Flexible Single Master Operations)
+Definition
+
+FSMO roles are special roles assigned to Domain Controllers in an Active Directory environment.
+These roles ensure that critical tasks are handled by only one Domain Controller at a time to avoid conflicts.
+
+Types of FSMO Roles
+
+There are 5 FSMO Roles:
+
+2 Forest-level roles
+
+3 Domain-level roles
+
+Forest-Level FSMO Roles
+1. Schema Master
+
+Controls changes to the Active Directory schema
+
+Only one Schema Master per forest
+
+Required when installing or modifying applications like Exchange
+
+2. Domain Naming Master
+
+Controls adding or removing domains in the forest
+
+Only one Domain Naming Master per forest
+
+Required when creating or deleting domains
+
+Domain-Level FSMO Roles
+3. RID Master
+
+Allocates Relative ID (RID) pools to Domain Controllers
+
+Required to create new user, group, or computer objects
+
+One RID Master per domain
+
+4. PDC Emulator
+
+Acts as the primary domain controller
+
+Handles:
+
+Password changes
+
+Account lockouts
+
+Time synchronization
+
+One PDC Emulator per domain
+
+5. Infrastructure Master
+
+Updates references between domains
+
+Ensures correct group membership
+
+One Infrastructure Master per domain
+
+FSMO Role Summary Table
+FSMO Role	Scope	Function
+Schema Master	Forest	Schema changes
+Domain Naming Master	Forest	Domain add/remove
+RID Master	Domain	Object creation
+PDC Emulator	Domain	Password & time
+Infrastructure Master	Domain	Cross-domain updates
+How to Check FSMO Roles
+Using Command Prompt
+
+Run on Domain Controller:
+
+netdom query fsmo
+
+Transfer FSMO Roles (GUI Method)
+Transfer Schema Master
+
+Register schema snap-in:
+
+regsvr32 schmmgmt.dll
+
+
+Open MMC
+
+Add Active Directory Schema
+
+Right-click → Change Active Directory Domain Controller
+
+Transfer Domain Naming Master
+
+Open Active Directory Domains and Trusts
+
+Right-click → Operations Master
+
+Transfer role
+
+Transfer RID, PDC, Infrastructure
+
+Open Active Directory Users and Computers
+
+Right-click domain
+
+Select Operations Masters
+
+Transfer roles
+
+FSMO Role Placement Best Practice
+
+Single Domain Controller:
+
+All FSMO roles on one DC
+
+Multiple Domain Controllers:
+
+PDC Emulator and RID Master on same DC
+
+Schema Master and Domain Naming Master together
+
+Conclusion
+
+FSMO roles ensure proper functioning and consistency of Active Directory.
+Each role performs a unique and critical task and must be available at all times.
